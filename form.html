@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Form</title>
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  </head>
+  <body>
+    <div class="main">
+      <!--career objective-->
+      <div class="s1">
+        <h1>Career Objective</h1>
+        <select id="career" name="career" placeholder="career objective">
+          <option>To secure a challenging position in a reputable organization to expand my learnings, knowledge, and skills.</option>
+          <option>Secure a responsible career opportunity to fully utilize my training and skills, while making a significant contribution to the success of the company.</option>
+          <option>Seeking an entry-level position to begin my career in a high-level professional environment.</option>
+       </select>
+      </div>
+      <!--details-->
+      <div class="s2">
+        <h1>Personal Information</h1>
+        <input type="text" name="name" id="name" placeholder="enter full name">
+        <input type="number" name="mobile" id="mobile" placeholder="enter mobile number">
+        <input type="text" name="email" id="email" placeholder="enter email">
+      </div>
+      <!--educational details-->
+  <div class="s2">
+    <h1>Graduation Details</h1>
+    <label for="ginst">
+      <input type="text" name="ginst" id="ginst" placeholder="enter Institute name">
+    </label><br>
+    <label for="gcourse">
+       <select id="gcourse" name="gcourse">
+         <option >Select Degree</option>
+         <option>B.Tech</option>
+         <option>BSc</option>
+         <option>B.arch</option>
+       </select>
+    </label><br>
+    <label for="gyear">
+      <input type="text" id="gyear" name="gyear" placeholder="year of passing">
+    </label><br>
+    <label for="gper">
+      <input type="text" id="gper" name="gper" placeholder="percentage">
+    </label>
+  </div>
+  <!--+2 details-->
+    <div class="s2">
+      <h1>Intermediate/
+        Diploma</h1>
+        <label for="iinst">
+          <input type="text" name="iinst" id="iinst" placeholder="enter Institute name">
+        </label><br>
+      <label for="icourse">
+         <select id="icourse" name="icourse">
+           <option>Select Degree</option>
+           <option>MPC</option>
+           <option >BiPC</option>
+           <option>CEC</option>
+         </select>
+      </label><br>
+      <label for="iyear">
+           <input type="text" id="iyear" name="iyear" placeholder="Year of passing">
+      </label><br>
+      <label for="iper">
+        <input type="text" id="iper" name="iper" placeholder="percentage">
+      </label>
+    </div>
+    <!--10th details-->
+      <div class="s2">
+        <h1>SSC/CBSE</h1>
+        <label for="sinst">
+          <input type="text" name="sinst" id="sinst" placeholder="enter Institute name">
+        </label><br>
+        <label for="scourse">
+           <select id="scourse" name="scourse">
+             <option>Select Board</option>
+             <option>SSC</option>
+             <option >CBSE</option>
+             <option>ICSE</option>
+           </select>
+        </label><br>
+        <label for="syear">
+             <input type="text" id="syear" name="syear" placeholder="Year of passing">
+        </label><br>
+        <label for="sper">
+          <input type="text" id="sper" name="sper" placeholder="percentage">
+        </label>
+      </div><br>
+      <button type="button" name="button" id="button" onclick="submitdata()">SUBMIT</button>
+    </div>
+  </body>
+</html
+
+<!--JAVASCRIPT-->
+<script type="text/javascript">
+function submitdata(){
+  var career=document.getElementById("career").value;
+  var name;
+  var mobile;
+  var email;
+  name=document.getElementById("name").value;
+  mobile=document.getElementById("mobile").value;
+  email=document.getElementById("email").value
+
+  var ginstitute=document.getElementById("ginst").value;
+  var gcourse=document.getElementById("gcourse").value;
+  var gyear=document.getElementById("gyear").value;
+  var gpercen=document.getElementById("gper").value;
+
+  var iinstitute=document.getElementById("iinst").value;
+  var icourse=document.getElementById("icourse").value;
+  var iyear=document.getElementById("iyear").value;
+  var ipercen=document.getElementById("iper").value;
+
+  var sinstitute=document.getElementById("sinst").value;
+  var scourse=document.getElementById("scourse").value;
+  var syear=document.getElementById("syear").value;
+  var spercen=document.getElementById("sper").value;
+
+//IndexedDB
+  var request;
+  var open;
+  var tx;
+  var store;
+  var result;
+  var indexedDB = window.indexedDB || window.webkitIndexedDB || window.msIndexedDB;
+  request=indexedDB.open("mydatabase",1);
+
+  request.onerror=function(e){
+    console.log("error"+e);
+  }
+  //onupgradeneeded
+  request.onupgradeneeded=function(e){
+    result=e.target.result;
+    store=result.createObjectStore("resume",{keyPath:"name"});
+  }
+  request.onsuccess=function(e){
+    result=e.target.result;
+    tx=result.transaction("resume","readwrite");
+    store=tx.objectStore("resume");
+    store.put({
+      career:career,
+      name:name,
+      mobile:mobile,
+      email:email,
+      education:[
+        {
+          institute:ginstitute,
+          course:gcourse,
+          year:gyear,
+          percen:gpercen
+        },
+        {
+          institute:iinstitute,
+          course:icourse,
+          year:iyear,
+          percen:ipercen
+        },
+        {
+          institute:sinstitute,
+          course:scourse,
+          year:syear,
+          percen:spercen
+        }
+      ]
+    });
+    window.open("index.html");
+  }
+}
+</script>

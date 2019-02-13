@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Resume Building</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <header
+    <h1><b>RESUME</b></h1><br>
+    <a href="form.html"><img src="download.jpg" alt="image"></a>
+  </header>
+  <div class="parent">
+
+  </div>
+  </body>
+</html>
+
+<script type="text/javascript" src="main.js">
+
+</script>
+
+<script type="text/javascript">
+//service
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register("sw.js")
+  .then(function(register){
+    register.addEventListener('update found',function(){
+    var installingsw=register.installing;
+    console.log("service service Worker is installing",installingsw);
+  });
+})
+.catch(function(e){
+  console.log("error"+e);
+});
+}
+else{
+  console.log("brower is not supporting service working");
+}
+</script>
